@@ -9,7 +9,7 @@ from __future__ import annotations
 from typing import Any
 
 from pcam_config import DATASET_NAME, DATASET_REVISION
-
+import tensorflow as tf
 
 def _load_split(split: str, load_dataset_fn: Any = None):
     if load_dataset_fn is None:
@@ -49,10 +49,11 @@ def to_tf_dataset(dataset: Any, *, batch_size: int, training: bool, seed: int):
     if training:
         dataset = dataset.shuffle(seed=seed)
 
-    return dataset.to_tf_dataset(
+    ds = dataset.to_tf_dataset(
         columns="image",
         label_cols="label",
         batch_size=batch_size,
         shuffle=False,
         drop_remainder=False,
     )
+    return ds.prefetch(tf.data.AUTOTUNE)
