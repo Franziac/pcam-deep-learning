@@ -7,11 +7,13 @@ This repository implements the Stage 2 comparison for the same ML problem used i
 The primary comparison uses two distinct method families from the course:
 
 - **CNN**: three convolution/max-pooling blocks, global average pooling, a 64-unit ReLU layer, dropout, and one sigmoid output.
-- **MLP**: the same RGB pixels are rescaled, flattened, passed through a 64-unit ReLU hidden layer with dropout, and mapped to one sigmoid output.
+- **MLP**: the input RGB image is rescaled to [-1, 1], resized from 96 x 96 to 48 x 48, flattened, passed through 128- and 32-unit ReLU hidden layers with dropout, and mapped to one sigmoid output.
 
-The MLP deliberately has no convolution or ImageNet pretraining. This makes the comparison about the value of the CNN's image-specific spatial inductive bias, instead of comparing two CNN variants.
+The MLP has no convolution, pooling, or pretrained feature extractor. After the image is flattened, the model does not preserve the explicit spatial structure used by the CNN. It therefore provides a separate neural-network baseline for testing whether the CNN's local receptive fields and shared convolutional weights improve generalization on PCam.
 
-Both methods use the same PCam revision, preprocessing, optimizer, learning rate, batch size, epoch budget, binary cross-entropy loss, and validation protocol.
+The MLP input is resized to 48 x 48 before flattening. This reduces the number of parameters and makes training the fully connected baseline practical. The CNN keeps the original 96 x 96 spatial resolution.
+
+Both methods use the same official PCam train, validation, and test splits. They also use the same optimizer, learning rate, batch size, epoch budget, binary cross-entropy training loss, and validation-based model-selection procedure. Their image preprocessing is not identical because the architectures require different input transformations.
 
 ## Leakage-safe experiment protocol
 

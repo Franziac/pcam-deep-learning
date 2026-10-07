@@ -16,7 +16,13 @@ Use `check_data.py` to report the measured split sizes and class counts from the
 
 ### Feature selection and preprocessing
 
-No learned feature selection is applied. Both methods receive the same RGB pixels. Pixel values are scaled from 0-255 to 0-1 inside each model.
+No explicit feature-selection algorithm is applied. The original data point is a 96 x 96 RGB image.
+
+The CNN keeps the original 96 x 96 resolution and rescales pixel values from [0, 255] to [0, 1].
+
+The MLP rescales pixel values to [-1, 1], resizes each image to 48 x 48, and then flattens the image before the fully connected layers. The resizing reduces the dimensionality of the MLP input and keeps the fully connected model computationally practical.
+
+The two methods therefore use the same underlying RGB image information and the same dataset splits, but they do not use identical preprocessing.
 
 ### Method 1: CNN
 
@@ -24,7 +30,11 @@ Explain that convolutional filters use local receptive fields and shared weights
 
 ### Method 2: MLP
 
-Explain that the MLP is a nonlinear neural network over flattened pixels. It does not encode locality or translation-related weight sharing. It is therefore a useful baseline for testing whether the CNN's image-specific inductive bias improves generalization.
+The second method is a multi-layer perceptron. The 48 x 48 RGB input is flattened and passed through fully connected layers with 128 and 32 ReLU units, followed by dropout and one sigmoid output.
+
+The MLP can learn nonlinear relationships between pixel values, but it does not encode image locality or share parameters between different image locations. It therefore has a different hypothesis space from the CNN.
+
+This makes it a useful baseline for the PCam task. If the CNN achieves lower validation error, this supports the idea that convolutional locality and weight sharing are useful for histopathology image classification rather than the improvement coming only from using a nonlinear neural network.
 
 ### Loss
 
