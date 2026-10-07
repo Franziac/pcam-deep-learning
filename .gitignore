@@ -1,0 +1,16 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.DS_Store
+.env
+
+# Full training outputs and model checkpoints are generated locally.
+artifacts/
+*.weights.h5
+*.keras
+
+# Local dataset/cache directories.
+.cache/
+huggingface/

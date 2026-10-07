@@ -1,0 +1,18 @@
+{
+  "status": "legacy_reference_only",
+  "model": "cnn",
+  "selected_epoch": 7,
+  "examples": 32768,
+  "threshold": 0.5,
+  "accuracy": 0.829926,
+  "zero_one_error": 0.170074,
+  "precision": 0.902294,
+  "recall": 0.739818,
+  "f1": 0.813018,
+  "specificity": 0.919956,
+  "true_negatives": 15079,
+  "false_positives": 1312,
+  "false_negatives": 4261,
+  "true_positives": 12116,
+  "note": "Copied from the previous repository evaluation. Do not use this legacy test result to choose CNN vs MLP."
+}

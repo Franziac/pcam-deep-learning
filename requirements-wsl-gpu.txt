@@ -1,0 +1,6 @@
+# WSL/Linux NVIDIA GPU environment.
+datasets==5.0.1
+matplotlib==3.11.2
+numpy>=2.0,<3
+Pillow==12.3.0
+tensorflow[and-cuda]==2.21.0
