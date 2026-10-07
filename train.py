@@ -88,7 +88,7 @@ def train_model(
         validation_data=validation_set,
         epochs=epochs,
         callbacks=callbacks,
-        verbose=2,
+        verbose=1,
     )
     elapsed = time.monotonic() - started
 
