@@ -38,10 +38,12 @@ def build_model(model_name: str):
     return keras.Sequential(
         [
             keras.Input(shape=IMAGE_SHAPE),
-            keras.layers.Rescaling(1.0 / 255.0),
+            keras.layers.Rescaling(1.0 / 127.5, offset=-1.0),
+            keras.layers.Resizing(48, 48),
             keras.layers.Flatten(),
-            keras.layers.Dense(64, activation="relu"),
-            keras.layers.Dropout(0.35),
+            keras.layers.Dense(128, activation="relu"),
+            keras.layers.Dense(32, activation="relu"),
+            keras.layers.Dropout(0.10),
             keras.layers.Dense(1, activation="sigmoid"),
         ],
         name="pcam_mlp",
@@ -56,7 +58,8 @@ def model_description(model_name: str) -> str:
         )
     if model_name == "mlp":
         return (
-            "All 96x96x3 pixels are flattened, followed by a 64-unit ReLU "
-            "layer, dropout, and one sigmoid output."
+            "RGB images are rescaled to [-1, 1], resized to 48x48, flattened, "
+            "passed through 128- and 32-unit ReLU layers with dropout, "
+            "and mapped to one sigmoid output."
         )
     raise ValueError(f"Unknown model {model_name!r}")
